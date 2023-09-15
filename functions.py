@@ -6,29 +6,39 @@ import cv2
 
 
 def annotation_list(dir_txt, batch):
-    """ Creat a array of image name and bboxes
-
+    """ Creat an array of image name and bboxes
+    
         Arguments:
             dir_txt (.txt file): annotation path.
             batch (int): batch size.
-
+            
         Returns:
-            names (np.array): images name.
-            bbox (np.array): ground truth boxes.
+            annotation (np.array): images name, ground truth boxes.
     """
     dir_list = []
+    annotation = []
     with open(dir_txt) as file:
         for row in file.readlines():
             dir_list.append(row.rstrip())
     for every_folder in dir_list:
         with open('data/tiny-imagenet-200/train/' + every_folder + '/' + every_folder + '_boxes.txt') as f:
-            lines = [line.rstrip().split() for line in f]
-    random.Random(4).shuffle(lines)
-    return np.asarray(lines)[batch, 0], np.asarray(lines)[batch, 1:]
+            lines = [line.rstrip() for line in f]
+         for i in lines:
+            annotation.append(i.split())
+    random.Random(4).shuffle(annotation)
+    return np.asarray(annotation)[batch, 0], np.asarray(annotation)[batch, 1:]
 
 
 # you can read images with Image.open OR use cv2.imread
 def images_list(pre_list):
+    """ Creat a list of pixel arrays of images
+
+        Arguments:
+            pre_list (np.array): images name.
+            
+        Returns:
+            cv_img_list (np.array): pixel arrays.
+    """
     cv_img_list = []
     for i in pre_list:
         cv_img = cv2.imread('data/tiny-imagenet-200/train/' + i.split('_')[0] + '/images/' + i)
@@ -45,20 +55,22 @@ def images_list(pre_list):
 #     return np.asarray(np_img_list)
 
 
-def set_labels(pre_list):
-    labels_list = []
-    for item in pre_list:
-        labels_list.append(item.split('_')[0])
-    return np.asarray(labels_list)
-
-
 def val_list(val_dir, batch):
-    my_list = []
-    with open(val_dir) as f:
-        lines = [line.rstrip() for line in f]
+    """ Creat an array of annotations
+
+        Arguments:
+            val_dir (.txt file): validation path.
+            batch (int): batch size.
+            
+        Returns:
+            val_annotation (np.array): images name, classes, ground truth boxes.
+    """
+    val_annotation = []
+    with open(val_dir) as file:
+        lines = [line.rstrip() for line in file]
         for i in lines:
-            my_list.append(i.split())
-    return np.asarray(my_list)[batch, 0], np.asarray(my_list)[batch, 1], np.asarray(my_list)[batch, 2:]
+            val_annotation.append(i.split())
+    return np.asarray(val_annotation)[batch, 0], np.asarray(val_annotation)[batch, 1], np.asarray(val_annotation)[batch, 2:]
 
 
 def np_val_images(pre_list):
