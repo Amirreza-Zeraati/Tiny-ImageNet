@@ -6,36 +6,43 @@ import cv2
 
 
 def annotation_list(dir_txt, batch):
-    dir_list = []
-    my_list = []
+    """ Creat a array of image name and bboxes
 
+        Arguments:
+            dir_txt (.txt file): annotation path.
+            batch (int): batch size.
+
+        Returns:
+            names (np.array): images name.
+            bbox (np.array): ground truth boxes.
+    """
+    dir_list = []
     with open(dir_txt) as file:
         for row in file.readlines():
             dir_list.append(row.rstrip())
     for every_folder in dir_list:
         with open('data/tiny-imagenet-200/train/' + every_folder + '/' + every_folder + '_boxes.txt') as f:
-            lines = [line.rstrip() for line in f]
-        for i in lines:
-            my_list.append(i.split())
-    random.Random(4).shuffle(my_list)
-    return np.asarray(my_list)[batch, 0], np.asarray(my_list)[batch, 1:]
+            lines = [line.rstrip().split() for line in f]
+    random.Random(4).shuffle(lines)
+    return np.asarray(lines)[batch, 0], np.asarray(lines)[batch, 1:]
 
 
-# def images_list(pre_list):
-#     np_img_list = []
-#     for i in pre_list:
-#         np_img = np.asarray(Image.open(('data/tiny-imagenet-200/train/' + i.split('_')[0] + '/images/' + i)),
-#                             dtype=np.float64)
-#         np_img_list.append(np_img)
-#     return np.asarray(np_img_list)
-
-
+# you can read images with Image.open OR use cv2.imread
 def images_list(pre_list):
     cv_img_list = []
     for i in pre_list:
         cv_img = cv2.imread('data/tiny-imagenet-200/train/' + i.split('_')[0] + '/images/' + i)
         cv_img_list.append(cv_img)
     return np.asarray(cv_img_list)
+
+
+# def images_list_2(pre_list):
+#     np_img_list = []
+#     for i in pre_list:
+#         np_img = np.asarray(Image.open(('data/tiny-imagenet-200/train/' + i.split('_')[0] + '/images/' + i)),
+#                             dtype=np.float64)
+#         np_img_list.append(np_img)
+#     return np.asarray(np_img_list)
 
 
 def set_labels(pre_list):
