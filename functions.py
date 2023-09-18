@@ -84,6 +84,7 @@ def np_val_images(pre_list):
 
 
 def convert2int(pre_list):
+    """ Convert string to int """
     my_list = []
     for i in pre_list:
         my_list.append(tf.strings.to_number(i, tf.float32))
@@ -91,6 +92,14 @@ def convert2int(pre_list):
 
 
 def label_dic(pre_list):
+    """ Creat an array of image name and bboxes
+    
+        Arguments:
+            pre_list (np.array): classes.
+            
+        Returns:
+            int_label (np.array): classes number of the current batch.
+    """
     list1 = np.arange(0, 200)
     list2 = []
     list3 = []
