@@ -5,7 +5,7 @@ import tensorflow as tf
 import datetime
 
 print('Building data generator...')
-data = data_generator.CustomDataGenerator("data/tiny-imagenet-200/wnids.txt", 10)
+data = data_generator.CustomDataGenerator("data/tiny-imagenet-200/wnids.txt", 40)
 val_data = val_generator.CustomDataGenerator("data/tiny-imagenet-200/val/val_annotations.txt", 10)
 
 print('Building model...')
