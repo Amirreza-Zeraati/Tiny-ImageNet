@@ -30,6 +30,7 @@ def annotation_list(dir_txt, batch):
 
 
 # you can read images with Image.open OR use cv2.imread
+# cv2.imread :
 def images_list(pre_list):
     """ Creat a list of pixel arrays of images
 
@@ -45,7 +46,7 @@ def images_list(pre_list):
         cv_img_list.append(cv_img)
     return np.asarray(cv_img_list)
 
-
+# Image.open :
 # def images_list_2(pre_list):
 #     np_img_list = []
 #     for i in pre_list:
